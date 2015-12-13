@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "es5",
+		"out": "webmod.js",
+		"sourceMap": true
+	},
+	"files": [
+    "src/util.ts",
+    
+    "src/loader.ts",
+    "src/player.ts",
+    "src/formats/mod.ts",
+    "src/formats/s3m.ts",
+    "src/formats/xm.ts",
+    "src/formats/it.ts",
+    
+		"src/webmod.ts"
+	]
+}
