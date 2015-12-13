@@ -8,9 +8,9 @@ Most effects are not implemented or not working correctly yet.
 
 ## Compiling
 
-WebMod is written in {@link http://www.typescriptlang.org|TypeScript} and
+WebMod is written in [TypeScript](http://www.typescriptlang.org) and
 needs to be compiled to JavaScript in order to run in a browser.
-Follow {@link https://www.npmjs.com/package/typescript|these instructions} to
+Follow [these instructions](https://www.npmjs.com/package/typescript) to
 install the TypeScript compiler (tsc) on your machine. Now you can run the
 following command in the project directory to compile everything:
 
