@@ -194,6 +194,13 @@ module WebMod {
       return item.position;
     }
     
+    set currentPos(value: number) {
+      this.player.stop();
+      this.player.currentPos = value;
+      this.player.currentRow = 0;
+      this.player.start();
+    }
+    
     get currentRow(): number {
       var item = this.getCurrentRowPlaybackItem();
       if(!item) return 0;

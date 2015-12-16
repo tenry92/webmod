@@ -337,6 +337,7 @@ module WebMod {
       });
       
       this.activeNodes = [];
+      this.posRowAtTime = [];
     }
     
     private periodToPlaybackRate(period: number, palVersion: boolean = false) {
