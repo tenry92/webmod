@@ -1,6 +1,6 @@
 /*
  *
- * WebMod, Version 0.1.0 (Pre-Alpha)
+ * WebMod, Version 0.1.1 (Pre-Alpha)
  *
  * Author: Simon "Tenry" Burchert
  *
