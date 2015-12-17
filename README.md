@@ -50,7 +50,7 @@ of browsers and the status:
 Browser | Status
 --------|-------
 Chromium 47 | Works fine.
-Firefox 42 | Does not seem to really work.
+Firefox 43 | Works fine.
 Opera | Not tested.
 Safari | Not tested.
 Edge | Not tested.
