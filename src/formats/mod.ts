@@ -55,7 +55,7 @@ module WebMod {
         for(var j = 0; j < 64; ++j) {
           var row = new RowData();
           
-          for(var k = 0; k < 4; ++k) {
+          for(var k = 0; k < this.mod.channelCount; ++k) {
             var cell = new CellData();
             
             var d = f.read('u32');
