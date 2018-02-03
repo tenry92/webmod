@@ -1,0 +1,42 @@
+{
+  "name": "webmod",
+  "version": "0.1.2-pre-alpha",
+  "description": "WebMod is an audio player for tracker modules (such as MOD, S3M, XM and IT) written in TypeScript.",
+  "main": "webmod.js",
+  "directories": {
+    "doc": "doc",
+    "example": "example",
+    "test": "test"
+  },
+  "scripts": {
+    "build": "webpack && jsmin -o dist/webmod.min.js dist/webmod.js",
+    "docs": "typedoc --mode file --name WebMod --readme README.md --excludePrivate --excludeExternals --externalPattern **/node_modules/** --includeDeclarations --theme minimal -t ES6 --out doc src",
+    "docs-internal": "typedoc --mode file --name WebMod --readme README.md -t ES5 --out doc-internal src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tenry92/webmod.git"
+  },
+  "keywords": [
+    "webmod",
+    "tracker",
+    "mod",
+    "s3m",
+    "xm",
+    "it"
+  ],
+  "author": "Simon \"Tenry\" Burchert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tenry92/webmod/issues"
+  },
+  "homepage": "https://github.com/tenry92/webmod#readme",
+  "devDependencies": {
+    "jsmin": "^1.0.1",
+    "ts-loader": "^3.4.0",
+    "typedoc": "^0.10.0",
+    "typescript": "^2.7.1",
+    "webpack": "^3.10.0"
+  }
+}
