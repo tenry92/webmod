@@ -6,37 +6,32 @@ It currently only works with a few MOD and XM files, best without any effects.
 Most effects are not implemented or not working correctly yet.
 
 
-## Compiling
-
-WebMod is written in [TypeScript](http://www.typescriptlang.org) and
-needs to be compiled to JavaScript in order to run in a browser.
-Follow [these instructions](https://www.npmjs.com/package/typescript) to
-install the TypeScript compiler (tsc) on your machine. Now you can run the
-following command in the project directory to compile everything:
-
-    $ tsc
-
-It compiles the TypeScript files within the src directory into a single file,
-webmod.js.
-
-
 ## Usage
 
-Include webmod.js:
+Include webmod.min.js:
 
 ~~~HTML
-<script src="webmod.js"></script>
+<script src="dist/webmod.min.js"></script>
 ~~~
 
 
 JavaScript:
 
 ~~~JavaScript
-var data = new Uint8Array(...);
-var mod = new WebMod.Module(data);
-mod.start();
-...
-mod.stop();
+// get an AudioContext from somewhere
+const context = new AudioContext();
+
+// get some module data from somewhere, such as an HTTP request
+const data = new Uint8Array(...);
+
+// create module instance from typed array
+webmod.createModuleFromBuffer(context, data).then(track => {
+  track.connect(context.destination);
+  track.start();
+
+  // at any time, if you wish to stop the module:
+  track.stop();
+});
 ~~~
 
 

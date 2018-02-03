@@ -1,5 +1,5 @@
 declare module WebMod {
-  class Module {
+  export class Module {
     currentPos: number;
     currentRow: number;
     currentSpeed: number;
@@ -9,7 +9,6 @@ declare module WebMod {
      * @param data Array buffer containing the raw module file data.
      * @param ctx If provided, this module will use an existing audio context.
      *   Otherwise it creates a new audio context.
-     *
      */
     constructor(data: ArrayBuffer, ctx?: AudioContext);
     

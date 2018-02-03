@@ -1,15 +1,17 @@
-module WebMod {
-  export class ItLoader extends Loader {
-    static isIt(f: Util.DataReader) {
-      f.seek(0);
-      var format = f.readString(4);
-      f.rewind();
-      
-      return format == 'IMPM';
-    }
+import * as util from '../util';
+import {Loader} from '../loader';
+import {PatternData, RowData, CellData, Instrument, Sample} from '../player';
+
+export class ItLoader extends Loader {
+  static isIt(f: util.DataReader) {
+    f.seek(0);
+    let format = f.readString(4);
+    f.rewind();
     
-    load(f: Util.DataReader) {
-      throw new Error('IT format not implemented.');
-    }
+    return format == 'IMPM';
+  }
+  
+  load(f: util.DataReader) {
+    throw new Error('IT format not implemented.');
   }
 }

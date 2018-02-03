@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <title>WebMod Test</title>
-<script src="webmod.js"></script>
+<script src="dist/webmod.min.js"></script>
 <script>
-var mod = null;
+var track = null;
 var ctx = new AudioContext();
 
-function loadModule(data) {
-  if(mod) {
-    mod.stop();
+async function loadModule(data) {
+  if(track) {
+    track.stop();
   }
   
-  mod = new WebMod.Module(data, ctx);
-  mod.start();
-  
+  track = await webmod.createModuleFromBuffer(ctx, data);
+  track.connect(ctx.destination);
+  track.start();
   
   document.getElementById('sample-number').value = 1;
   renderSample(1);
@@ -45,44 +45,43 @@ function loadFile(file) {
 }
 
 setInterval(function() {
-  if(!mod) return;
+  if(!track) return;
   
   var str = '';
   for(var i = -16; i <= 16; ++i) {
-    var rowNum = mod.currentRow + i;
-    if(rowNum >= 0 && rowNum < 64)
-    {
+    var rowNum = track.currentRow + i;
+    if(rowNum >= 0 && rowNum < 64) {
       if(rowNum.toString().length == 1) rowNum = ' ' + rowNum;
       str += rowNum + ' ';
     }
     
-    if(i == 0) str += '<mark>&gt; ' + mod.rowToString(i) + '</mark>\n';
-    else str += '  ' + mod.rowToString(i) + '\n';
+    if(i == 0) str += '<mark>&gt; ' + track.rowToString(i) + '</mark>\n';
+    else str += '  ' + track.rowToString(i) + '\n';
   }
   document.getElementById('track').innerHTML = str;
 }, 50);
 
 setInterval(function() {
-  if(!mod) return;
+  if(!track) return;
   
   var div = document.getElementById('position');
   div.innerHTML = '';
-  for(var i = 0; i < mod.positionCount; ++i) {
+  for(var i = 0; i < track.positionCount; ++i) {
     var span = document.createElement('span');
-    if(i == mod.currentPos) span.className = 'active';
-    span.innerHTML = mod.patternTable[i];
+    if(i == track.currentPos) span.className = 'active';
+    span.innerHTML = track.patternTable[i];
     div.appendChild(span);
   }
 }, 100);
 
 function playSample(number) {
-  if(!mod) return;
+  if(!track) return;
   
-  if(number - 1 >= mod.samples.length) return;
-  if(!mod.samples[number - 1].buffer) return;
+  if(number - 1 >= track.samples.length) return;
+  if(!track.samples[number - 1].buffer) return;
   
   var node = ctx.createBufferSource();
-  node.buffer = mod.samples[number - 1].buffer;
+  node.buffer = track.samples[number - 1].buffer;
   node.connect(ctx.destination);
   node.start();
 }
@@ -96,27 +95,28 @@ function renderSample(number) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   
   
-  if(!mod) return;
+  if(!track) return;
   
-  if(number - 1 >= mod.samples.length) return;
+  if(number - 1 >= track.samples.length) return;
   
-  var sample = mod.samples[number - 1];
+  var sample = track.samples[number - 1];
   if(!sample.buffer) return;
   var data = sample.buffer.getChannelData(0);
   
   ctx.strokeStyle = 'red';
   ctx.beginPath();
   ctx.moveTo(0, canvas.height / 2);
-  if(canvas.width < data.length)
-  for(var x = 0; x <= canvas.width; ++x) {
-    var level = -data[Math.round(x / canvas.width * data.length)];
-    ctx.lineTo(x, canvas.height / 2 + level * canvas.height / 2);
-  }
-  else
-  for(var i = 0; i < data.length; ++i) {
-    var level = -data[i];
-    var x = i / (data.length - 1) * canvas.width;
-    ctx.lineTo(x, canvas.height / 2 + level * canvas.height / 2);
+  if(canvas.width < data.length) {
+    for(var x = 0; x <= canvas.width; ++x) {
+      var level = -data[Math.round(x / canvas.width * data.length)];
+      ctx.lineTo(x, canvas.height / 2 + level * canvas.height / 2);
+    }
+  } else {
+    for(var i = 0; i < data.length; ++i) {
+      var level = -data[i];
+      var x = i / (data.length - 1) * canvas.width;
+      ctx.lineTo(x, canvas.height / 2 + level * canvas.height / 2);
+    }
   }
   ctx.stroke();
   
@@ -167,7 +167,7 @@ function renderSample(number) {
 <body>
 <h1>WebMod Test</h1>
 <input type="file" onchange="loadFile(this.files[0]);">
-<button type="button" onclick="if(mod) { mod.stop(); mod = null; }">Stop</button>
+<button type="button" onclick="if(track) { track.stop(); track = null; }">Stop</button>
 <div id="position"></div>
 <div id="track" style="white-space:pre; font-family:Monospace;"></div>
 
